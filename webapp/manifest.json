@@ -1,0 +1,192 @@
+{
+    "_version": "1.48.0",
+    "sap.app": {
+        "id": "com.bosch.sd.shipq",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.13.2",
+            "toolsId": "782297a4-6aae-4af1-b6bd-e685f716f4b1"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata4/rb1m/sd_u_shpq_doc_fetch/srvd_a2x/rb1m/sd_shpq_doc_fetch/0001/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation0"
+                    ],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
+            },
+            "annotation0": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation0.xml",
+                "settings": {
+                    "localUri": "annotations/annotation0.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "rootView": {
+            "viewName": "com.bosch.sd.shipq.view.Main",
+            "type": "XML",
+            "async": true,
+            "id": ""
+        },
+        "dependencies": {
+            "minUI5Version": "1.120.30",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.bosch.sd.shipq.i18n.i18n"
+                }
+            },
+            "tprops": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.bosch.sd.shipq.model.technical"
+                }
+            },
+            "mainService": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "": {
+            "dataSource": "mainService",
+            "preload": true,
+            "settings": {
+            "operationMode": "Server",
+            "autoExpandSelect": true,
+            "earlyRequests": true
+            }
+        }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.bosch.sd.shipq.view",
+                "controlAggregation": "pages",
+                "controlId": "myShipQContent",
+                "clearControlAggregation": false,
+                "bypassed": {
+                    "target": "notFound"
+                }
+            },
+            "routes": [
+                {
+                    "pattern": "",
+                    "name": "scanInput",
+                    "target": "scanInput",
+                    "isHome": true
+                },
+                {
+                    "pattern": "connection",
+                    "name": "ConnectionTest",
+                    "target": "connectionTest"
+                },
+                {
+                    "pattern": "result",
+                    "name": "DisplayResult",
+                    "target": "displayResult"
+                },
+                {
+                    "pattern": "",
+                    "name": "NotFound",
+                    "target": "notFound"
+                }
+            ],
+            "targets": {
+                "connectionTest": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "viewName": "ConnectionTest",
+                    "viewId": "connectionTest",
+                    "async": true
+                },
+                "scanInput": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "scanInput",
+                    "viewName": "ScanInput",
+                    "async": true
+                },
+                "displayResult": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "displayResult",
+                    "viewName": "DisplayResult",
+                    "async": true
+                },
+                "notFound": {
+                    "viewName": "NotFound",
+                    "viewId": "notfound",
+                    "transition": "show",
+                    "async": true
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/rb1m/sd_sdshipq/webapp",
+        "_version": "1.1.0"
+    }
+}

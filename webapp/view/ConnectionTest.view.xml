@@ -1,0 +1,73 @@
+<mvc:View controllerName="com.bosch.sd.shipq.controller.ConnectionTest" 
+          xmlns:mvc="sap.ui.core.mvc" 
+          displayBlock="true" 
+          xmlns="sap.m"
+          xmlns:img="sap.suite.ui.commons.imageeditor"
+          xmlns:unified="sap.ui.unified">
+
+	<Page id="page" 
+			title="{i18n>appTitle}"
+			showNavButton="true"
+			navButtonPress="onNavBack">
+		<content>
+			
+		<Table id="DocumentTable"
+			   class="swcMiddelTblCell"
+			   width = "100%"
+			   headerText="Connection Test"
+			   items="{ path : '/ShippingDocuments',
+						filters : [ { path : 'PlantId', operator : 'EQ', value1 : '1400'}]
+					   }"
+			   growingThreshold="100" 
+			   alternateRowColors="true"
+			   mode="SingleSelectMaster" 
+			   includeItemInSelection="true"
+			   selectionChange="onSelectDocument"
+			   sticky="HeaderToolbar,InfoToolbar,ColumnHeaders">
+										    
+		    <columns>
+		      <Column id="_IDEGen_column0">
+		        <Text id="_IDEGen_text0" text="PlantId" />
+		      </Column>
+		      <Column id="_IDEGen_column1">
+		        <Text id="_IDEGen_text1" text="FileName" />
+		      </Column>
+		      <Column id="_IDEGen_column2">
+		        <Text id="_IDEGen_text2" text="Material" />
+		      </Column>
+		      <Column id="_IDEGen_column3">
+		        <Text id="_IDEGen_text3" text="ShipTo" />
+		      </Column>
+		    </columns>
+		    
+			<items>
+		      <ColumnListItem id="_IDEGen_columnlistitem0">
+		        <cells>
+					<Text id="_IDEGen_text5" text="{PlantId}" />
+					<Text id="_IDEGen_text6" text="{FileName}" />
+					<Text id="_IDEGen_text7" text="{MaterialNumber}" />
+					<Text id="_IDEGen_text8" text="{ShipToParty}" />
+				 </cells>
+		      </ColumnListItem>
+		    </items>
+		</Table>
+
+		<VBox id="docdisplay1" alignContent="Center" height="100%">
+			<Image id="idImage1_conn" src="data:{MIME};base64,{Document}" 
+					 densityAware="false" visible="false" tooltip="Target Picture">
+				<layoutData>
+					<FlexItemData id="_IDEGen_flexitemdata01" growFactor="1"/>
+				</layoutData>
+			</Image>
+			<PDFViewer id="idPdfViewer_conn" source="" displayType="Link"
+			    title="{FileName}" visible="false" height="100%" showDownloadButton="false">
+				<layoutData>
+					<FlexItemData id="_IDEGen_flexitemdata11" growFactor="1"/>
+				</layoutData>
+			</PDFViewer>
+
+		</VBox>		
+	</content>
+	</Page>
+
+</mvc:View>

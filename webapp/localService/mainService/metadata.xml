@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="SAP__HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PDF.v1" Alias="SAP__PDF"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_SESSION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Session.v1" Alias="SAP__session"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HIERARCHY',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Hierarchy.v1" Alias="SAP__hierarchy"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.gateway.srvd_a2x.rb1m.sd_shpq_doc_fetch.v0001" Alias="SAP__self">
+            <Annotation Term="SAP__core.SchemaVersion" String="1.0.0"/>
+            <EntityType Name="xRB1MxSD_C_Shipping_DocumentType">
+                <Key>
+                    <PropertyRef Name="PlantId"/>
+                    <PropertyRef Name="FileName"/>
+                    <PropertyRef Name="MaterialNumber"/>
+                    <PropertyRef Name="ShipToParty"/>
+                    <PropertyRef Name="PackingInstruction"/>
+                    <PropertyRef Name="ExternalId"/>
+                    <PropertyRef Name="DeliveryId"/>
+                    <PropertyRef Name="Document"/>
+                </Key>
+                <Property Name="PlantId" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="MaterialNumber" Type="Edm.String" Nullable="false" MaxLength="18"/>
+                <Property Name="ShipToParty" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="PackingInstruction" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="ExternalId" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="DeliveryId" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="Document" Type="Edm.String" Nullable="false"/>
+                <Property Name="FreeText" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="ShipToName" Type="Edm.String" Nullable="false" MaxLength="35"/>
+                <Property Name="UploadDate" Type="Edm.Date"/>
+                <Property Name="MIME" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="ErrorCode" Type="Edm.Int16" Nullable="false"/>
+                <Property Name="InfoMsgId" Type="Edm.String" Nullable="false"/>
+                <Property Name="InfoMsgType" Type="Edm.String" Nullable="false"/>
+                <Property Name="ShowAllDocs" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="IncreaseCount" Type="Edm.Boolean" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="xRB1MxSD_C_Document_ContentType">
+                <Key>
+                    <PropertyRef Name="PlantId"/>
+                    <PropertyRef Name="FileName"/>
+                </Key>
+                <Property Name="PlantId" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="Document" Type="Edm.String" Nullable="false"/>
+                <Property Name="MIME" Type="Edm.String" Nullable="false" MaxLength="128"/>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="xRB1MxSD_C_Document_Content" EntityType="com.sap.gateway.srvd_a2x.rb1m.sd_shpq_doc_fetch.v0001.xRB1MxSD_C_Document_ContentType"/>
+                <EntitySet Name="xRB1MxSD_C_Shipping_Document" EntityType="com.sap.gateway.srvd_a2x.rb1m.sd_shpq_doc_fetch.v0001.xRB1MxSD_C_Shipping_DocumentType"/>
+            </EntityContainer>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/PlantId">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Werk"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/MaterialNumber">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Material"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Materialnummer"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/ShipToParty">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Debitor"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Debitorennummer"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/PackingInstruction">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Packobjekt"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Identifikationsnummer des Packobjekts"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/ExternalId">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Handling Unit"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Externe Handling-Unit-Identifikation"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/DeliveryId">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Vertriebsbeleg"/>
+                <Annotation Term="SAP__common.Heading" String="Beleg"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Vertriebsbelegnummer"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType">
+                <Annotation Term="SAP__common.Label" String="Documents to Shipping Quality App"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/xRB1MxSD_C_Shipping_Document">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="Filterable" Bool="true"/>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Document"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="InfoMsgId"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="InfoMsgType"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>Document</PropertyPath>
+                                <PropertyPath>InfoMsgId</PropertyPath>
+                                <PropertyPath>InfoMsgType</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Document_ContentType/PlantId">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Werk"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Document_ContentType">
+                <Annotation Term="SAP__common.Label" String="Contents and Formats of documents"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/xRB1MxSD_C_Document_Content">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="Filterable" Bool="true"/>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Document"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>Document</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container">
+                <Annotation Term="SAP__aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="SAP__aggregation.RollupType/None"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+                <Annotation Term="SAP__capabilities.FilterFunctions">
+                    <Collection>
+                        <String>eq</String>
+                        <String>ne</String>
+                        <String>gt</String>
+                        <String>ge</String>
+                        <String>lt</String>
+                        <String>le</String>
+                        <String>and</String>
+                        <String>or</String>
+                        <String>contains</String>
+                        <String>startswith</String>
+                        <String>endswith</String>
+                        <String>any</String>
+                        <String>all</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SupportedFormats">
+                    <Collection>
+                        <String>application/json</String>
+                        <String>application/pdf</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__PDF.Features">
+                    <Record>
+                        <PropertyValue Property="DocumentDescriptionReference" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="DocumentDescriptionCollection" String="MyDocumentDescriptions"/>
+                        <PropertyValue Property="ArchiveFormat" Bool="true"/>
+                        <PropertyValue Property="Border" Bool="true"/>
+                        <PropertyValue Property="CoverPage" Bool="true"/>
+                        <PropertyValue Property="FitToPage" Bool="true"/>
+                        <PropertyValue Property="FontName" Bool="true"/>
+                        <PropertyValue Property="FontSize" Bool="true"/>
+                        <PropertyValue Property="Margin" Bool="true"/>
+                        <PropertyValue Property="Padding" Bool="true"/>
+                        <PropertyValue Property="Signature" Bool="true"/>
+                        <PropertyValue Property="HeaderFooter" Bool="true"/>
+                        <PropertyValue Property="ResultSizeDefault" Int="20000"/>
+                        <PropertyValue Property="ResultSizeMaximum" Int="20000"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.KeyAsSegmentSupported"/>
+                <Annotation Term="SAP__capabilities.AsynchronousRequestsSupported"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/FileName">
+                <Annotation Term="SAP__common.Label" String="Name der Datei"/>
+                <Annotation Term="SAP__common.Heading" String="Dateiname"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Lokale Datei für Upload bzw. Download"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/ShipToName">
+                <Annotation Term="SAP__common.Label" String="Name"/>
+                <Annotation Term="SAP__common.Heading" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name 1"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/UploadDate">
+                <Annotation Term="SAP__common.Label" String="aktuelles Datum"/>
+                <Annotation Term="SAP__common.Heading" String="Datum"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Systemdatum"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/ErrorCode">
+                <Annotation Term="SAP__common.Label" String="Untzeich.INT2/int16"/>
+                <Annotation Term="SAP__common.Heading" String="Unterzei.INT2/Edm.int16"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Unterzeichnet INT2/Edm.int16"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/ShowAllDocs">
+                <Annotation Term="SAP__common.Label" String="Flag"/>
+                <Annotation Term="SAP__common.Heading" String="flag"/>
+                <Annotation Term="SAP__common.QuickInfo" String="allgemeines flag"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Shipping_DocumentType/IncreaseCount">
+                <Annotation Term="SAP__common.Label" String="Flag"/>
+                <Annotation Term="SAP__common.Heading" String="flag"/>
+                <Annotation Term="SAP__common.QuickInfo" String="allgemeines flag"/>
+            </Annotations>
+            <Annotations Target="SAP__self.xRB1MxSD_C_Document_ContentType/FileName">
+                <Annotation Term="SAP__common.Label" String="Name der Datei"/>
+                <Annotation Term="SAP__common.Heading" String="Dateiname"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Lokale Datei für Upload bzw. Download"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

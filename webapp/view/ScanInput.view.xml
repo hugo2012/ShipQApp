@@ -1,0 +1,85 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:layout="sap.ui.layout.form" 
+	xmlns:core="sap.ui.core"
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
+	xmlns:vm="sap.m.VariantManagement"
+	xmlns:f="sap.f"
+	height="100%"
+	controllerName="com.bosch.sd.shipq.controller.ScanInput">
+	<!--<Page id="scanInputPAge" title="{i18n>appTitle}" class="sapUiSmallMargin">-->
+	<Page id="scanInputPAge" title="{i18n>appTitle}" showHeader="false" class="sapUiSmallMargin">
+		<!-- see comment in Component.js::init; need to calculate the image root path -->
+		<ObjectHeader id="ScanInputObjectHeader1" title="{i18n>appLongTitle}" icon="{imageModel>/path}/img/ShipQ_Logo_final_new.png"
+			fullScreenOptimized="true" responsive="true" intro=""/> 	
+				    		
+		<content>	
+			<HBox id="_IDGenHBox" width="100%">
+			<VariantManagement
+				id="variantManagement"					
+				selectedKey="{view>/selectedKey}"
+				items="{view>/variants}"
+				select="onVariantSelect"
+				save="onVariantSave"
+				showSaveAs="true"				
+				manage="onVariantManage">						
+				<items>
+					<VariantItem id="_IDGenVariantItem1"
+					key="{view>key}"
+					text="{view>text}"
+					executeOnSelect="false"
+					changeable="true"
+					sharing="Public"
+					enabled="true"
+						/>
+				</items>
+			</VariantManagement>	
+			</HBox>
+			<layout:SimpleForm id="ScanInputForm" editable="true" layout="ResponsiveGridLayout" title="{i18n>ScanInputFormTitle}" labelSpanXL="3"
+				labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+				columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+				<layout:content>
+					<VBox id="_IDEGen_vbox0">
+						<HBox id="_IDEGen_hbox8" visible="true" direction="Column">
+							<Label id="_IDEGen_label8" text="{i18n>scanInputFormPrinterTitle}"/>
+							<Select id="inputPrinter" forceSelection="false" items="{ path: 'selectionModel>/aGates' }">
+								<core:Item id="_IDGenItem" key="{selectionModel>Printer}" text="{selectionModel>Printer}"/>
+							</Select>
+						</HBox>
+						<Label id="_IDEGen_label0" text="{i18n>scanInputFormPlantTitle}"/>
+						<HBox id="_IDEGen_hbox0">
+							<Input id="inputPlant" width="100%" placeholder="{i18n>scanInputFormPlantTitle}"/>
+							<Label id="_IDEGen_label1" text=""/>
+						</HBox>
+						<Label id="_IDEGen_label2" text="{i18n>scanInputFormHUTitle}"/>
+						<HBox id="_IDEGen_hbox1">
+							<Input id="inputHu" width="100%" placeholder="{i18n>scanInputFormHUTitle}"/>
+							<Button id="_IDEGen_button0" text="{i18n>scanInputFormScanBtn}" press="onPressScan" icon="{tprops>scanBtnIcon}" custom:input="inputHu"/>
+						</HBox>
+						<Label id="_IDEGen_label3" text="{i18n>scanInputFormPartNumberTitle}"/>
+						<HBox id="_IDEGen_hbox2">
+							<Input width="100%" id="inputMatnr" placeholder="{i18n>scanInputFormPartNumberTitle}"/>
+							<Button id="_IDEGen_button1" text="{i18n>scanInputFormScanBtn}" press="onPressScan" icon="{tprops>scanBtnIcon}" custom:input="inputMatnr"/>
+						</HBox>
+						<Label id="_IDEGen_label4" text="{i18n>scanInputFormDeliveryNoteTitle}"/>
+						<HBox id="_IDEGen_hbox3">
+							<Input width="100%" id="inputDlv" placeholder="{i18n>scanInputFormDeliveryNoteTitle}"/>
+							<Button id="_IDEGen_button2" text="{i18n>scanInputFormScanBtn}" press="onPressScan" icon="{tprops>scanBtnIcon}" custom:input="inputDlv"/>
+						</HBox>
+						<Label id="_IDEGen_label5" text="{i18n>scanInputFormShipToTitle}"/>
+						<HBox id="_IDEGen_hbox4">
+							<Input width="100%" id="inputShipTo" placeholder="{i18n>scanInputFormShipToTitle}"/>
+							<Button id="_IDEGen_button3" text="{i18n>scanInputFormScanBtn}" press="onPressScan" icon="{tprops>scanBtnIcon}" custom:input="inputShipTo"/>
+						</HBox>
+						<Label id="_IDEGen_label6" text="{i18n>scanInputFormPackingTitle}"/>
+						<Input width="100%" id="inputPackInstr" placeholder="{i18n>scanInputFormPackingTitle}"/>
+						<!-- note: was first requested, then declined. Keep as invisble in case they change their minds again -->
+						<CheckBox id="inputAllDocs" text="{i18n>scanInputFormAllPlantsTitle}" visible="false" select="onAllDocsSelect"/>
+						<HBox id="_IDEGen_hbox6">
+							<Button id="_IDEGen_button4" text="{i18n>scanInputFormConfirmBtnTxt}" icon="{tprops>confirmBtnIcon}" enabled="false"/>
+							<Button id="_IDEGen_button5" text="{i18n>scanInputFormResetBtnTxt}" press="onPressReset" icon="{tprops>refreshBtnIcon}"/>
+						</HBox>
+					</VBox>
+				</layout:content>
+			</layout:SimpleForm>
+		</content>
+	</Page>
+</mvc:View>
