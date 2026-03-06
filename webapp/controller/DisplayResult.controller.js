@@ -20,6 +20,17 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			BaseController.prototype.onInit.apply(this);
+			 // Initialize the PDF model 
+            var oViewModel = new JSONModel({
+                pdfUrl: "",
+            });
+            this.getView().setModel(oViewModel, "pdfSource");
+			this._sCreatedPdfUrl = null;
+			// Final cleanup when controller is destroyed
+			if (this._sCreatedPdfUrl) {
+				URL.revokeObjectURL(this._sCreatedPdfUrl);
+			}
+			
 			this.getRouter().getRoute("DisplayResult").attachPatternMatched(this._onObjectMatched, this);
 		},
 
@@ -56,12 +67,16 @@ sap.ui.define([
 
 		onSelectionChange: function (oEvent) {
 			var that = this;
+			// Final cleanup when controller is destroyed
+			if (this._sCreatedPdfUrl) {
+				URL.revokeObjectURL(this._sCreatedPdfUrl);
+			}
 			if (oEvent !== undefined && oEvent.getSource() !== undefined) {
 				var oContext = oEvent.getParameter("listItem").getBindingContext();
 				if (oContext !== undefined && oContext !== null) {
 					var plantId = oContext.getProperty("PlantId");
 					var fileName = oContext.getProperty("FileName");
-
+					this._sFileName = fileName;
 					//var oModel = this.getView().getModel();
 				
 
@@ -113,32 +128,47 @@ sap.ui.define([
 		},
 
 		_showDocument: function (oContext, data, dateraw, titel, contentPath) {
-			debugger;
+			//debugger;
 			var oPdfViewer = oContext.getView().byId("idPdfViewer");
 			var oImage = oContext.getView().byId("idImage1");
+			var iframe = document.getElementById("pdfReport");
+			var oHtmlControl = this.byId("pdfFrame");
+			//Get customPDF control base64
+			var oPdfViewer64 = oContext.getView().byId("pdfViewer");
 			var text = oContext.getView().byId("docTitle");
 			text.setVisible(true);
 			text.setText(dateraw);
 			//if (dateraw instanceof Date === true) {
-			 if (this.fnStringIsValidDate(dateraw) == true) {
-				var year = dateraw.getFullYear();
-				var month = dateraw.getMonth();
-				var date = dateraw.getDate();
-				var year1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getFullYear();
-				var month1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getMonth();
-				var date1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getDate();
-				var dateCompare = new Date(year, month, date) > new Date(year1, month1, date1);
-				if (dateCompare === true) {
-					text.addStyleClass("yellowTxtHlight");
-				} else {
-					text.removeStyleClass("yellowTxtHlight");
-				}
-				text.setText(titel);
+			//debugger;
+			if( titel.includes("Upload") ){
+				var _fnStringIsValidDate = this.isValidDate(dateraw) ;
+				if (_fnStringIsValidDate === true) {
+					var year = dateraw.getFullYear();
+					var month = dateraw.getMonth();
+					var date = dateraw.getDate();
+					var year1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getFullYear();
+					var month1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getMonth();
+					var date1 = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).getDate();
+					var dateCompare = new Date(year, month, date) > new Date(year1, month1, date1);
+					if (dateCompare === true) {
+						text.addStyleClass("yellowTxtHlight");
+					} else {
+						text.removeStyleClass("yellowTxtHlight");
+					}
+					text.setText(titel);
+				}  
 			}
+	 
 			if (data.MIME === "application/pdf") {
 				var pdfBase64 = data.Document;
 				if (pdfBase64 !== undefined && pdfBase64 !== "") {
 					var decodedPdfContent = atob(pdfBase64);
+					try {
+						window.atob(pdfBase64);
+						console.log("String is valid Base64");
+					} catch (e) {
+						console.error("Invalid Base64:", e.message);
+					}
 					var byteArray = new Uint8Array(decodedPdfContent.length);
 					for (var i = 0; i < decodedPdfContent.length; i++) {
 						byteArray[i] = decodedPdfContent.charCodeAt(i);
@@ -146,25 +176,36 @@ sap.ui.define([
 					var blob = new Blob([byteArray.buffer], {
 						type: "application/pdf"
 					});
-					var pdfurl = URL.createObjectURL(blob);
-
+					//const oFile = new File([byteArray], 'test pdf', { type: 'application/pdf' });
+					this._sCreatedPdfUrl = URL.createObjectURL(blob);//blob
 					URLWhitelist.add("blob"); // register blob url as whitelist
-					oPdfViewer.setVisible(true);
+					oPdfViewer.setVisible(false);
 					oImage.setVisible(false);
-					oPdfViewer.setSource(pdfurl);
-					// oPdfViewer.setTitle(titel);
-					//oPdfViewer.open();			// opens in pop-up; if required
-
-					if (oContext._useLink) {
+					/* oPdfViewer.setDisplayType(sap.m.PDFViewerDisplayType.Embedded);
+					oPdfViewer.setSource(this._sCreatedPdfUrl); */
+					
+					 if (iframe) {				
+						iframe.src = this._sCreatedPdfUrl 
+						if (oHtmlControl) {							
+							oHtmlControl.setVisible(true);
+						}
+					} 
+					/* if (oContext._useLink) {
 						oPdfViewer.downloadPDF();
-					}
+					} */
 				}
 			} else {
-				// var text = oContext.getView().byId("docTitle");
-				// text.setVisible(true);
-				// text.setText(titel);
 				oImage.setVisible(true);
-				oPdfViewer.setVisible(false);
+				oPdfViewer.setVisible(false);					
+				if (oHtmlControl) {
+					oHtmlControl.setContent("");
+					oHtmlControl.setVisible(false);
+				}
+				if (this._sCreatedPdfUrl) {
+					URL.revokeObjectURL(this._sCreatedPdfUrl);
+				}
+					this._sCreatedPdfUrl = null;
+
 				//var p = bindingContext.getPath();
 				oImage.bindElement({
 					path: contentPath
@@ -176,7 +217,26 @@ sap.ui.define([
 				oContext.getView().byId("idIconTabBarNoIcons").setExpanded(false);
 			}
 		},
-		 
+		displayPDF: function (sBase64Data) {
+			// 1. Ensure the prefix exists for this method
+			let sDataUri = sBase64Data;
+			if (!sDataUri.startsWith("data:application/pdf;base64,")) {
+				sDataUri = "data:application/pdf;base64," + sBase64Data;
+			}
+
+			// 2. Use fetch to convert the Data URI to a Blob automatically
+			fetch(sDataUri)
+				.then(res => res.blob())
+				.then(blob => {
+					const sBlobUrl = URL.createObjectURL(blob);
+					//this.getView().getModel().setProperty("/pdfUrl", sBlobUrl);
+					this._sCreatedPdfUrl = sBlobUrl;
+					this.getView().getModel("pdfSource").setProperty("/pdfUrl", this._sCreatedPdfUrl);
+				})
+				.catch(err => {
+					console.error("Internal Browser Conversion Failed:", err);
+				});
+		},
 		fnFormatDateUI5Display: function (e) {
             if (isNaN(new Date(e))) {
                 return ""
@@ -194,9 +254,23 @@ sap.ui.define([
             return n
         },
 		fnStringIsValidDate: function(dateString) {
+			const timestamp = Date.parse(dateString);
+			return !isNaN(timestamp);
+		},
+		isValidDate :function (dateString) {
+		// Try to parse the string into a Date object
 		const date = new Date(dateString);
-		// Check if the date object is valid (its valueOf() is not NaN)
-		 return !isNaN(date.valueOf());
+
+		// Check if the date object is valid (not "Invalid Date", which returns NaN for its valueOf)
+		// Number.isNaN() is a reliable way to check for the NaN value
+		const isValid = !Number.isNaN(date.valueOf());
+
+		// Optional but recommended: Perform stricter checks if you expect specific formats.
+		// For example, if you expect an ISO format 'YYYY-MM-DD', you might add regex checks
+		// or verify the resulting date components match the input to avoid false positives 
+		// from JS's lenient parsing of certain formats (e.g., new Date('2/30/2014') -> Mar 2, 2014).
+
+			return isValid;
 		},
 		_onObjectMatched: function (oEvent) {
 			var oFilters = this.getView().getModel("filters");
@@ -325,6 +399,40 @@ sap.ui.define([
 					this.setBusy(false);
 					break;
 				}
+			}
+		},
+		onNavBack: function() {
+			// 1. Clear the iframe first
+			var oHtmlControl = this.byId("pdfFrame");
+			if (oHtmlControl) {
+				oHtmlControl.setContent("");
+			}
+			// Final cleanup when controller is destroyed
+			if (this._sCreatedPdfUrl) {
+				URL.revokeObjectURL(this._sCreatedPdfUrl);
+			}
+			// 2. Then navigate back
+			//var oHistory = sap.ui.core.routing.History.getInstance();
+			//var sPreviousHash = oHistory.getPreviousHash();
+
+			/* if (sPreviousHash !== undefined) {
+				window.history.go(-1);
+			} else {
+				this.getOwnerComponent().getRouter().navTo("scanInput", {}, true);
+			} */
+		  this.getOwnerComponent().getRouter().navTo("scanInput", {}, true);
+		},
+		onExit: function() {
+			//debugger;
+			// 1. Find the HTML control
+			var oHtmlControl = this.byId("pdfFrame");
+			if (oHtmlControl) {
+				// 2. Clear the internal content so the iframe is removed from DOM
+				oHtmlControl.setContent("");
+			}	
+			// Final cleanup when controller is destroyed
+			if (this._sCreatedPdfUrl) {
+				URL.revokeObjectURL(this._sCreatedPdfUrl);
 			}
 		}
 	});
