@@ -1,77 +1,95 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.ui.layout.form"
-	controllerName="com.bosch.sd.shipq.controller.DisplayResult" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:tnt="sap.tnt">
-	<Page id="displayResultId" title="{i18n>appTitle}" showNavButton="true" navButtonPress="onNavBack" class="sapUiResponsiveContentPadding">
-		<headerContent>
-			<!-- was asked for but not yet confirmed; keep as reference -->
-			<!-- <Button id="_IDEGen_button0" text="{i18n>scanInputFormToggleHeader}" press="onPressToggleHeader" icon="{tprops>refreshBtnIcon}"/> -->
-			<Button id="_IDEGen_button11" text="{i18n>scanInputFormResetBtnTxt}" press="onPressReset" icon="{tprops>refreshBtnIcon}"/>
-		</headerContent>
-		<content>
-			<MessageStrip id="MsgStrip" class="sapUiSmallMarginBeginEnd sapUiSmallMarginTopBottom" type="{filters>/InfoType}" text='{filters>/InfoText}'
-				showIcon="true" showCloseButton="true" visible="false"/>
-			<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiNoContentPadding">
-				<items>
-					<IconTabFilter id="iconTabFilterInput" text="{i18n>displayResultInputTitel}" key="inputTab">
-						<VBox id="_IDEGen_vbox01" class="sapUiSmallMargin">
-							<f:SimpleForm id="SimpleFormInput" editable="false" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4">
-								<f:content>
-									<Label id="_IDEGen_label01" text="{i18n>scanInputFormPlantTitle}"/>
-									<Input id="InputPlant" value="{filters>/PlantId}" editable="false"/>
-									<Label id="_IDEGen_label11" text="{i18n>scanInputFormHUTitle}"/>
-									<Input id="InputHu" value="{filters>/HandlingUnit}" editable="false"/>
-									<Label id="_IDEGen_label21" text="{i18n>scanInputFormPartNumberTitle}"/>
-									<Input id="InputMatnr" value="{filters>/MaterialNumber}" editable="false"/>
-									<Label id="_IDEGen_label31" text="{i18n>scanInputFormDeliveryNoteTitle}"/>
-									<Input id="InputDlv" value="{filters>/DeliveryId}" editable="false"/>
-									<Label id="_IDEGen_label41" text="{i18n>scanInputFormShipToTitle}"/>
-									<Input id="InputShipTo" value="{filters>/ShipToParty}" editable="false"/>
-									<Label id="_IDEGen_label51" text="{i18n>scanInputFormPackingTitle}"/>
-									<Input id="InputPack" value="{filters>/PackingInstruction}" editable="false"/>
-									<Label id="_IDEGen_label61" text=""/>
-									<CheckBox id="InputDocs" text="{i18n>scanInputFormAllPlantsTitle}" visible="false" selected="{filters>/ShowAllDocs}" editable="false"/>
-								</f:content>
-							</f:SimpleForm>
-						</VBox>
-					</IconTabFilter>
-					<IconTabFilter id="iconTabFilterList" text="{i18n>displayResultListTitel}" key="listTab">
-						<List id="PackInstList" visible="true" mode="SingleSelectMaster" items="{ path: '/xRB1MxSD_C_Shipping_Document', suspended : false}"
-							selectionChange="onSelectionChange">
-							<items>
-								<ObjectListItem id="_IDEGen_objectlistitem0" title="{FileName}">
-									<!--<attributes>-->
-									<ObjectAttribute id="_IDEGen_objectattribute1a" title="{i18n>scanInputFormPlantTitle}" text="{PlantId}"/>
-									<ObjectAttribute id="_IDEGen_objectattribute1" title="{i18n>scanInputFormShipToTitle}" text="{ShipToName}"/>
-									<ObjectAttribute id="_IDEGen_objectattribute2" title="{i18n>scanInputFormPartNumberTitle}" text="{MaterialNumber}"/>
-									<ObjectAttribute id="_IDEGen_objectattribute4" title="{i18n>scanInputFormPackingTitle}" text="{PackingInstruction}"/>
-									<ObjectAttribute id="_IDEGen_objectattribute5" title="{i18n>scanInputFormFreeTextTitle}" text="{FreeText}"/>
-									<ObjectAttribute id="_IDEGen_objectattribute6" title="{i18n>scanInputFormUploadDateTitle}"
-										text="{path: 'UploadDate', formatter: '.dateFormatter.dateText' }" class="colorText">
-										<customData>
-											<core:CustomData id="date" key="yellow" value="vFlag" writeToDom="{path: 'UploadDate', formatter: '.dateFormatter.boolean'}"/>
-										</customData>
-									</ObjectAttribute>
-									<!--</attributes>-->
-								</ObjectListItem>
-							</items>
-						</List>
-					</IconTabFilter>
-				</items>
-			</IconTabBar>
-			<VBox id="docdisplay" alignContent="Center" height="100%">
-				<Text id="docTitle" class="sapUiSmallMarginBottom" visible="false"/>
-				<Image id="idImage1" src="data:{MIME};base64,{Document}" densityAware="false" visible="false" tooltip="{FileName}" alt="{FileName}"
-					width="100%" height="auto">
-					<layoutData>
-						<FlexItemData id="_IDEGen_flexitemdata0" growFactor="1"/>
-					</layoutData>
-				</Image>
-				<PDFViewer id="idPdfViewer" source="" displayType="Link" sourceValidationFailed="onSourceValidationFailed" title="{FileName}"
-					visible="false" height="100%" showDownloadButton="false">
-					<layoutData>
-						<FlexItemData id="_IDEGen_flexitemdata1" growFactor="1"/>
-					</layoutData>
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+ xmlns="sap.m" xmlns:f="sap.ui.layout.form" 
+ controllerName="com.bosch.sd.shipq.controller.DisplayResult" 
+ xmlns:html="http://www.w3.org/1999/xhtml" xmlns:tnt="sap.tnt"
+ xmlns:pdf ="cc.pdfviewer">
+    <Page id="displayResultId" title="{i18n>appTitle}" showNavButton="true" navButtonPress="onNavBack" class="sapUiResponsiveContentPadding">
+        <headerContent>
+            <!-- was asked for but not yet confirmed; keep as reference -->
+            <!-- <Button id="_IDEGen_button0" text="{i18n>scanInputFormToggleHeader}" press="onPressToggleHeader" icon="{tprops>refreshBtnIcon}"/> -->
+        <Button id="_IDEGen_button11" text="{i18n>scanInputFormResetBtnTxt}" press="onPressReset" icon="{tprops>refreshBtnIcon}"/> </headerContent>
+        <content>
+            <MessageStrip id="MsgStrip" class="sapUiSmallMarginBeginEnd sapUiSmallMarginTopBottom" type="{filters>/InfoType}" text='{filters>/InfoText}' showIcon="true" showCloseButton="true" visible="false"/>
+            <IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiNoContentPadding">
+                <items>
+                    <IconTabFilter id="iconTabFilterInput" text="{i18n>displayResultInputTitel}" key="inputTab">
+                        <VBox id="_IDEGen_vbox01" class="sapUiSmallMargin">
+                            <f:SimpleForm id="SimpleFormInput" editable="false" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4">
+                                <f:content>
+                                    <Label id="_IDEGen_label01" text="{i18n>scanInputFormPlantTitle}"/>
+                                    <Input id="InputPlant" value="{filters>/PlantId}" editable="false"/>
+                                    <Label id="_IDEGen_label11" text="{i18n>scanInputFormHUTitle}"/>
+                                    <Input id="InputHu" value="{filters>/HandlingUnit}" editable="false"/>
+                                    <Label id="_IDEGen_label21" text="{i18n>scanInputFormPartNumberTitle}"/>
+                                    <Input id="InputMatnr" value="{filters>/MaterialNumber}" editable="false"/>
+                                    <Label id="_IDEGen_label31" text="{i18n>scanInputFormDeliveryNoteTitle}"/>
+                                    <Input id="InputDlv" value="{filters>/DeliveryId}" editable="false"/>
+                                    <Label id="_IDEGen_label41" text="{i18n>scanInputFormShipToTitle}"/>
+                                    <Input id="InputShipTo" value="{filters>/ShipToParty}" editable="false"/>
+                                    <Label id="_IDEGen_label51" text="{i18n>scanInputFormPackingTitle}"/>
+                                    <Input id="InputPack" value="{filters>/PackingInstruction}" editable="false"/>
+                                    <Label id="_IDEGen_label61" text=""/>
+                                    <CheckBox id="InputDocs" text="{i18n>scanInputFormAllPlantsTitle}" visible="false" selected="{filters>/ShowAllDocs}" editable="false"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </VBox>
+                    </IconTabFilter>
+                    <IconTabFilter id="iconTabFilterList" text="{i18n>displayResultListTitel}" key="listTab">
+                        <List id="PackInstList" visible="true" mode="SingleSelectMaster" items="{ path: '/xRB1MxSD_C_Shipping_Document', suspended : false}" selectionChange="onSelectionChange">
+                            <items>
+                                <ObjectListItem
+                                    id="_IDEGen_objectlistitem0" title="{FileName}">
+                                    <!--<attributes>-->
+                                    <ObjectAttribute id="_IDEGen_objectattribute1a" title="{i18n>scanInputFormPlantTitle}" text="{PlantId}"/>
+                                    <ObjectAttribute id="_IDEGen_objectattribute1" title="{i18n>scanInputFormShipToTitle}" text="{ShipToName}"/>
+                                    <ObjectAttribute id="_IDEGen_objectattribute2" title="{i18n>scanInputFormPartNumberTitle}" text="{MaterialNumber}"/>
+                                    <ObjectAttribute id="_IDEGen_objectattribute4" title="{i18n>scanInputFormPackingTitle}" text="{PackingInstruction}"/>
+                                    <ObjectAttribute id="_IDEGen_objectattribute5" title="{i18n>scanInputFormFreeTextTitle}" text="{FreeText}"/>
+                                    <ObjectAttribute
+                                        id="_IDEGen_objectattribute6" title="{i18n>scanInputFormUploadDateTitle}" visible="false" text="{path: 'UploadDate', formatter: '.dateFormatter.dateText' }" class="colorText"><!-- <customData>
+                                            											<core:CustomData id="date" key="yellow" value="vFlag" writeToDom="{path: 'UploadDate', formatter: '.dateFormatter.boolean'}"/>
+                                            										</customData> -->
+                                    </ObjectAttribute>
+                                    <ObjectAttribute
+                                        id="_IDEGen_objectattribute7" title="{i18n>scanInputFormUploadDateTitle}" text="{
+                                            											path: 'UploadDate',
+                                            											type: 'sap.ui.model.odata.type.Date',
+                                            											formatOptions: { style: 'medium' }
+                                            										}" class="colorText"><!-- <customData>
+                                            											<core:CustomData id="date" key="yellow" value="vFlag" writeToDom="{path: 'UploadDate', formatter: '.dateFormatter.boolean'}"/>
+                                            										</customData> -->
+                                    </ObjectAttribute>
+                                    <!--</attributes>-->
+                                </ObjectListItem>
+                            </items>
+                        </List>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+            <VBox id="docdisplay" alignContent="Center" height="100%">
+                <Text id="docTitle" class="sapUiSmallMarginBottom" visible="false"/>
+                <Image id="idImage1" src="data:{MIME};base64,{Document}" densityAware="false" visible="false" tooltip="{FileName}" alt="{FileName}" width="100%" height="auto">
+                    <layoutData>
+                        <FlexItemData id="_IDEGen_flexitemdata0" growFactor="1"/>
+                    </layoutData>
+                </Image>
+                <PDFViewer id="idPdfViewer" displayType="Link" isTrustedSource="true" sourceValidationFailed="onSourceValidationFailed" title="{FileName}" visible="false" height="100%" showDownloadButton="false">
+                    <layoutData>
+                        <FlexItemData id="_IDEGen_flexitemdata1" growFactor="1"/>
+                    </layoutData>
 				</PDFViewer>
-			</VBox>
-		</content>
-	</Page>
+				<VBox id="_IDGenVBox1" height="100%">		
+					<core:HTML id="pdfFrame"               
+						content='&lt;iframe id="pdfReport" src="" style="border: none; width: 100%; height: 100%;-webkit-optimize-contrast; image-rendering: -webkit-optimize-contrast; position: absolute;"&gt;&lt;/iframe&gt;'>
+						<core:layoutData>
+							<FlexItemData id="_IDGenFlexItemData" growFactor="1" />
+						</core:layoutData>
+					</core:HTML>
+				</VBox>
+                <!-- <VBox id="custompdf64" height="100%" width="auto" visible="false">
+                <pdf:PdfViewer id="pdfViewer" pdfSource="{pdfSource>/pdfUrl}" height="100%"/>
+                </VBox> -->
+            </VBox>
+        </content>
+    </Page>
 </mvc:View>
